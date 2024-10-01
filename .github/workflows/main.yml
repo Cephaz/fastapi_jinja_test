@@ -18,8 +18,9 @@ jobs:
       
     - name: Update and restart application
       run: |
-        docker-compose down
-        docker-compose up -d --build
+        docker-compose -f docker-compose.prod.yml down
+        docker-compose -f docker-compose.prod.yml up -d --build
+
 
     - name: Clean up
       run: docker system prune -f

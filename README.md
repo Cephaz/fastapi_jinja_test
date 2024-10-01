@@ -18,3 +18,7 @@ pip freeze > requirements.txt
 ```bash
 docker-compose up -d
 ```
+## Create network
+```bash
+docker network create traefik_network
+```
