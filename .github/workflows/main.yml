@@ -13,9 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Create .env file
+      run: echo "${{ secrets.ENV_FILE }}" > .env
+      
     - name: Update and restart application
       run: |
-        git pull origin main
         docker-compose down
         docker-compose up -d --build
 
