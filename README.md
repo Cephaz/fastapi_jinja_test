@@ -4,7 +4,8 @@ cp .env.example .env
 ```
 ## Virtualenv
 ```bash
-source .venv/bin/activate
+python3 -m venv .venv     # Create virtualenv
+source .venv/bin/activate # Activate virtualenv
 ```
 ## Install
 ```bash
@@ -21,4 +22,11 @@ docker-compose up -d
 ## Create network
 ```bash
 docker network create traefik_network
+```
+## Commands
+```bash
+pylint app/ tests/
+coverage report
+alembic revision --autogenerate -m "create users table"
+alembic upgrade head
 ```

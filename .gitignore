@@ -15,3 +15,6 @@ __pycache__/
 
 # Setting vscode
 .vscode/
+
+# Ignore coverage files
+.coverage
