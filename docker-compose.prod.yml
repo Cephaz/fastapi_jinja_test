@@ -13,7 +13,7 @@ services:
       - "8000:8000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`${DOMAIN}`) || Host(`${DOMAIN_2}`)"
+      - "traefik.http.routers.api.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=${CERT_RESOLVER}"
       - "traefik.http.services.api.loadbalancer.server.port=8000"
