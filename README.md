@@ -7,14 +7,6 @@ cp .env.example .env
 python3 -m venv .venv     # Create virtualenv
 source .venv/bin/activate # Activate virtualenv
 ```
-## Install
-```bash
-pip install -r requirements.txt
-```
-## Update requirements
-```bash
-pip freeze > requirements.txt
-```
 ## Build container
 ```bash
 docker-compose up -d
@@ -25,8 +17,8 @@ docker network create traefik_network
 ```
 ## Commands
 ```bash
-pylint app/ tests/
-pytest --cov=app tests/
+pylint .
+pytest
 alembic revision --autogenerate -m "create users table"
 alembic upgrade head
 ```

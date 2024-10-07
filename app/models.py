@@ -1,4 +1,5 @@
 import datetime
+
 from sqlalchemy import Column, DateTime, Integer, String, text
 
 from .database import Base
@@ -9,16 +10,16 @@ class User(Base):
 
     Attributes:
         id (int): Unique identifier for the user.
-        username (str): Unique username for the user. Max length 50 characters.
-        email (str): User's email address. Must be unique. Max length 100 characters.
-        hashed_password (str): Hashed version of the user's password. Max length 100 characters.
-        created_at (datetime): Timestamp of when the user account was created.
-        updated_at (datetime): Timestamp of when the user account was last updated.
+        username (str): Unique username for the user. Max length 50 characters
+        email (str): User's email address. Must be unique. Max length 100 characters
+        hashed_password (str): Hashed version of the user's password. Max length 100 characters
+        created_at (datetime): Timestamp of when the user account was created
+        updated_at (datetime): Timestamp of when the user account was last updated
 
     Note:
-        - The `hashed_password` should never store plain text passwords.
-        - Always use a secure hashing algorithm (e.g., bcrypt) to hash passwords before storing.
-        - The `updated_at` field is automatically updated whenever the user record is modified.
+        - The `hashed_password` should never store plain text passwords
+        - Always use a secure hashing algorithm (e.g., bcrypt) to hash passwords before storing
+        - The `updated_at` field is automatically updated whenever the user record is modified
     """
 
     __tablename__ = "users"
