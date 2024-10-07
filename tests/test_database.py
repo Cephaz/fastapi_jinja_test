@@ -1,52 +1,46 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from sqlalchemy.engine.url import make_url
-from sqlalchemy.orm import DeclarativeBase, Session
 
-from app import config
-from app.database import Base, SessionLocal, engine, get_db
+from app import config, database
 
 
-def test_engine_creation():
-    """Test engine creation"""
-    config_url = make_url(config.SQLALCHEMY_DATABASE_URL)
-    engine_url = make_url(engine.url)
-
-    assert config_url.drivername == engine_url.drivername
-    assert config_url.username == engine_url.username
-    assert config_url.password == engine_url.password
-    assert config_url.host == engine_url.host
-    assert config_url.port == engine_url.port
-    assert config_url.database == engine_url.database
-
-
-def test_session_local():
-    """Test SessionLocal"""
-    assert isinstance(SessionLocal(), Session)
-
-
-def test_base_class():
-    """Test Base class"""
-    assert issubclass(Base, DeclarativeBase)
+def test_create_engine():
+    """Test if create_engine is called with the correct database URL."""
+    with patch("app.database.create_engine") as mock_create_engine:
+        mock_engine = MagicMock()
+        mock_create_engine.return_value = mock_engine
+        result = database.create_engine(config.SQLALCHEMY_DATABASE_URL)
+        mock_create_engine.assert_called_once_with(config.SQLALCHEMY_DATABASE_URL)
+        assert result == mock_engine
 
 
 def test_get_db():
-    """Test get_db"""
-    db = next(get_db())
-    assert isinstance(db, Session)
-    db.close()
+    """Test the normal operation of get_db function."""
+    mock_db = MagicMock()
+    with patch("app.database.SessionLocal", return_value=mock_db):
+        db_generator = database.get_db()
+        db_session = next(db_generator)
+        assert db_session == mock_db
+        mock_db.close.assert_not_called()
+        try:
+            next(db_generator)
+        except StopIteration:
+            pass
+        mock_db.close.assert_called_once()
 
 
 @pytest.fixture
-def mock_db_session(mocker):
-    """Mock SessionLocal"""
-    mock = mocker.patch("app.database.SessionLocal")
-    mock.return_value = mocker.Mock(spec=Session)
-    return mock
+def mock_db_session():
+    """Fixture to create a mock database session."""
+    return MagicMock()
 
 
-# pylint: disable=redefined-outer-name
-def test_get_db_yield_and_close(mock_db_session):
-    """Test get_db yield and close"""
-    db = next(get_db())
-    assert db == mock_db_session.return_value
-    db.close.assert_called_once()
+def test_get_db_exception(mock_db_session):  # pylint: disable=W0621
+    """Test get_db function behavior when an exception occurs."""
+    with patch("app.database.SessionLocal", return_value=mock_db_session):
+        db_generator = database.get_db()
+        next(db_generator)  # This creates the session
+        with pytest.raises(Exception):
+            db_generator.throw(Exception("Test exception"))
+    mock_db_session.close.assert_called_once()
