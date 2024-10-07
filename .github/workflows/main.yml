@@ -26,12 +26,12 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          pytest
-          coverage report --fail-under=90
+          poetry run pytest
+          poetry run coverage report --fail-under=90
 
       - name: Run pylint
         run: |
-          pylint . --fail-under=10
+          poetry run pylint . --fail-under=10
 
   deploy:
     runs-on: self-hosted
