@@ -19,7 +19,7 @@ class Settings(BaseSettings):
 
     ENV: str = os.getenv("ENV", "development")
     DEBUG: bool = True
-    API_KEY: str = os.getenv("API_KEY")
+    API_KEY: str = os.getenv("API_KEY", "default_api_key")
     DATABASE_URL: str = (
         f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:"
         f"{POSTGRES_PORT}/{POSTGRES_DB}"
@@ -56,7 +56,6 @@ class TestSettings(Settings):
         f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:"
         f"{POSTGRES_PORT}/{POSTGRES_DB}_test"
     )
-    API_KEY: str = "test_api_key"
 
 
 class ProductionSettings(Settings):
