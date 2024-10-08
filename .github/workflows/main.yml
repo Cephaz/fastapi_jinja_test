@@ -24,6 +24,12 @@ jobs:
           pip install poetry
           poetry install
 
+      - name: Start database
+        run: |
+          docker-compose -f docker-compose.prod.yml up -d db
+          # Wait for the database to start
+          sleep 10
+
       - name: Run tests with coverage
         run: |
           poetry run pytest
