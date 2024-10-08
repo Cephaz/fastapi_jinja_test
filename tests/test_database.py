@@ -10,8 +10,8 @@ def test_create_engine():
     with patch("app.database.create_engine") as mock_create_engine:
         mock_engine = MagicMock()
         mock_create_engine.return_value = mock_engine
-        result = database.create_engine(config.SQLALCHEMY_DATABASE_URL)
-        mock_create_engine.assert_called_once_with(config.SQLALCHEMY_DATABASE_URL)
+        result = database.create_engine(config.settings.DATABASE_URL)
+        mock_create_engine.assert_called_once_with(config.settings.DATABASE_URL)
         assert result == mock_engine
 
 
@@ -36,7 +36,7 @@ def mock_db_session():
     return MagicMock()
 
 
-def test_get_db_exception(mock_db_session):  # pylint: disable=W0621
+def test_get_db_exception(mock_db_session):
     """Test get_db function behavior when an exception occurs."""
     with patch("app.database.SessionLocal", return_value=mock_db_session):
         db_generator = database.get_db()

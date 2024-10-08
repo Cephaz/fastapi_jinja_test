@@ -18,7 +18,7 @@ docker network create traefik_network
 ## Commands
 ```bash
 pylint .
-pytest
+ENV=test pytest
 alembic revision --autogenerate -m "create users table"
 alembic upgrade head
 ```

@@ -2,13 +2,13 @@ services:
   api:
     build: .
     volumes:
-      - .:/app
+      - ./:/app
+    environment:
+      POSTGRES_HOST: db
     env_file:
       - .env
     depends_on:
       - db
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
     ports:
       - "8000:8000"
 
