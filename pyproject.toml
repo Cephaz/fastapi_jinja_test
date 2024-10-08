@@ -17,6 +17,8 @@ sqlalchemy = "^2.0.35"
 alembic = "^1.13.3"
 python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.9"
+pydantic-settings = "^2.5.2"
+sqlalchemy-utils = "^0.41.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.6.9"
